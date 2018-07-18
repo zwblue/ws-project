@@ -1,6 +1,6 @@
-import axios from "axios";
+// import axios from "../../axios";
 import { getRedirectPath } from '../util'
-import { Toast } from 'antd'
+import { Notification } from 'antd'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const ERROR_MSG = 'ERROR_MSG';
 const LOAD_DATA = 'LOAD_DATA';
@@ -19,7 +19,7 @@ export function user(state = initState, action) {
             return { ...state, ...action.data }
         case ERROR_MSG:
             if (action.msg) {
-                Toast.fail(action.msg)
+                Notification.fail(action.msg)
             }
             return { ...state, isAuth: false, msg: action.msg }
         default:
@@ -34,6 +34,7 @@ function errorMsg(msg) {
     return { msg, type: ERROR_MSG }
 }
 export function loadData(data) {
+    console.log(data);
     return { data: data, type: LOAD_DATA }
 }
 export function login({ user, pwd }) {
@@ -41,13 +42,13 @@ export function login({ user, pwd }) {
         return errorMsg('用户名密码必须输入')
     }
     return dispatch => {
-        axios.post('user/login', { user, pwd }).then(res => {
-            if (res.status === 200 && res.data.code === 0) {
-                Toast.success(res.data.msg)
-                dispatch(loginSuccess(res.data.data))
-            } else {
-                dispatch(errorMsg(res.data.msg))
-            }
-        }).catch()
+        // axios.post('user/login', { user, pwd }).then(res => {
+        //     if (res.status === 200 && res.data.code === 0) {
+        //         Notification.success(res.data.msg)
+        //         dispatch(loginSuccess(res.data.data))
+        //     } else {
+        //         dispatch(errorMsg(res.data.msg))
+        //     }
+        // }).catch()
     }
 }

@@ -11,8 +11,7 @@ import reducer from './reducer'
 
 // import './config';
 import './index.scss';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import App from './container/home';
 
 const store = createStore(reducer, compose(applyMiddleware(thunk)));
 
@@ -21,4 +20,3 @@ ReactDOM.render(
         <App />
     </Provider>, document.getElementById('root')
 );
-registerServiceWorker();
