@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+// redux在组件里面的用法 
 import { loadData } from '../../redux/user.redux'
 import { connect } from 'react-redux'
 @connect(
@@ -7,11 +8,13 @@ import { connect } from 'react-redux'
     { loadData }
 )
 
+
 class Home extends Component {
     componentDidMount() {
         this.props.loadData({ userName: 'zw', msg: '正常运行' });
     }
     render() {
+    
         return (
             <div>
                 <h1>home-{this.props.userName}</h1>
