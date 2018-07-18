@@ -1,63 +1,73 @@
 import React, { Component } from 'react';
 import './login.scss'
-
-import { loadData } from '../../redux/user.redux'
-import { connect } from 'react-redux'
-
-// 布局
-import { Layout, Menu, Icon } from 'antd';
-const { Sider, Content } = Layout;
-
+import { Form, Icon, Input, Button } from 'antd';
 
 // redux在组件里面的用法 
-
+import { login } from '../../redux/user.redux'
+import { connect } from 'react-redux'
+function hasErrors(fieldsError) {
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
+}
 @connect(
     state => state.user,
-    { loadData }
+    { login }
 )
-
-
-class SiderDemo extends React.Component {
-    state = {
-        collapsed: false,
-    };
-
-    toggle = () => {
-        this.setState({
-            collapsed: !this.state.collapsed,
+class HorizontalLoginForm extends React.Component {
+    componentDidMount() {
+        this.props.form.validateFields();
+        console.log('state值改变时',this.props)
+    }
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log(values,this.props)
+                this.props.login(values)
+            }
         });
     }
+
     render() {
+        const FormItem = Form.Item;
+        const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
+        const userNameError = isFieldTouched('username') && getFieldError('username');
+        const passwordError = isFieldTouched('password') && getFieldError('password');
         return (
-            <Layout>
-                <Sider
-                    trigger={null}
-                    collapsible
-                    collapsed={this.state.collapsed}
+            <Form layout="inline" onSubmit={this.handleSubmit}>
+                <FormItem
+                    validateStatus={userNameError ? 'error' : ''}
+                    help={userNameError || ''}
                 >
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                        <Menu.ItemGroup key="g1" title="项目管理系统">
-                            <Menu.Item key="1">
-                                <span>nav 1</span>
-                            </Menu.Item>
-                            <Menu.Item key="2">
-                                <span>nav 2</span>
-                            </Menu.Item>
-                            <Menu.Item key="3">
-                                <span>nav 3</span>
-                            </Menu.Item>
-                        </Menu.ItemGroup>
-                    </Menu>
-                </Sider>
-                <Layout>
-                    <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
-                        Content
-          </Content>
-                </Layout>
-            </Layout>
+                    {getFieldDecorator('username', {
+                        rules: [{ required: true, message: 'Please input your username!' }],
+                    })(
+                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                    )}
+                </FormItem>
+                <FormItem
+                    validateStatus={passwordError ? 'error' : ''}
+                    help={passwordError || ''}
+                >
+                    {getFieldDecorator('password', {
+                        rules: [{ required: true, message: 'Please input your Password!' }],
+                    })(
+                        <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                    )}
+                </FormItem>
+                <FormItem>
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        disabled={hasErrors(getFieldsError())}
+                    >
+                        登录
+          </Button>
+                </FormItem>
+            </Form>
         );
     }
 }
 
-export default SiderDemo
+const WrappedHorizontalLoginForm = Form.create()(HorizontalLoginForm);
 
+export default WrappedHorizontalLoginForm;

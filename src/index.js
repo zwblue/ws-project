@@ -11,9 +11,9 @@ import reducer from './reducer'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import IsLogin from './component/islogin/islogin'
 
-// import './config';
+import './config';
 import './index.scss';
-import Home from './container/home';
+import Home from './container/home/home';
 import Login from './container/login/login';
 
 const store = createStore(reducer, compose(applyMiddleware(thunk)));
@@ -21,7 +21,7 @@ const store = createStore(reducer, compose(applyMiddleware(thunk)));
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <div>
+            <div className='layout'>
                 <IsLogin></IsLogin>
                 <Switch>
                     <Route path='/home' component={Home}></Route>

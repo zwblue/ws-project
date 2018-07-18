@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { Modal } from "antd-mobile";
-import { getRequestUrl } from '../utils/uploadurl';
+import { Modal } from "antd";
+import { getRequestUrl } from './util';
 import Qs from 'qs'
 
 const service = axios.create({
