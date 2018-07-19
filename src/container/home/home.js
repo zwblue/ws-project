@@ -1,10 +1,12 @@
 
 import React, { Component } from 'react';
+import { Message } from 'antd'
 import './home.scss'
 
-import { loadData } from '../../redux/user.redux'
+import { getInfo } from '../../redux/user.redux'
 import { connect } from 'react-redux'
 
+import { getMenuApi } from '../../api/user'
 // 布局
 import { Layout, Menu } from 'antd';
 const { Sider, Content } = Layout;
@@ -14,15 +16,26 @@ const { Sider, Content } = Layout;
 
 @connect(
     state => state.user,
-    { loadData }
+    { getInfo }
 )
-
 
 class SiderDemo extends React.Component {
     state = {
         collapsed: false,
         current: '1'
     };
+    componentDidMount() {
+        localStorage.getItem('token') ? this.props.getInfo({}) : null;
+    }
+    // async getInfoData() {
+    //     try {
+    //         const data = await getMenuApi()
+    //     } catch (e) {
+    //         Message.error('')
+    //     }
+
+
+    // }
     toggle = () => {
         this.setState({
             collapsed: !this.state.collapsed,

@@ -2,39 +2,33 @@ import axios from "axios";
 import { getRedirectPath } from '../util'
 import { getRequestUrl } from '../util'
 import { Message } from 'antd'
+import { getUserInfoApi } from '../api/user'
 
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-const ERROR_MSG = 'ERROR_MSG';
 const LOAD_DATA = 'LOAD_DATA';
 
 const api = {
-    login: 'http://192.168.3.26:6426/user/login'
+    login: 'http://192.168.3.26:6426/user/login',
+    getInfo: 'http://192.168.3.26:6426/query/userid.htmls'
 }
 const initState = {
     token: '',
-    msg: '',
-    isLogin: '',
-    user: {}
+    isLogin: ''
 }
 
 export function user(state = initState, action) {
     switch (action.type) {
         case LOGIN_SUCCESS:
-            return { ...state, isLogin: true, ...action.data }
+            return { ...state, isLogin: true, token:action.data }
         case LOAD_DATA:
             return { ...state, ...action.data }
-        case ERROR_MSG:
-            return { ...state, isLogin: false, msg: action.msg }
         default:
             return state;
     }
 }
 
 function loginSuccess(data) {
-    return { data: data.data, type: LOGIN_SUCCESS }
-}
-function errorMsg(msg) {
-    return { msg, type: ERROR_MSG }
+    return { data: data.token, type: LOGIN_SUCCESS }
 }
 export function loadData(data) {
     console.log(data);
@@ -47,7 +41,18 @@ export function login(params) {
         axios.post(api.login, params1).then(res => {
             if (res.data.code === 0) {
                 Message.success(res.data.msg)
-                dispatch(loginSuccess(res.data))
+                dispatch(loginSuccess(res.data.data))
+            } else {
+                Message.error(res.data.msg)
+            }
+        }).catch()
+    }
+}
+export function getInfo(params) {
+    return dispatch => {
+        getUserInfoApi(params).then(res => {
+            console.log(res.data)
+            if (res.data.code === 0) {
             } else {
                 Message.error(res.data.msg)
             }
