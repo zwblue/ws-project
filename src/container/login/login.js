@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './login.scss'
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, Message } from 'antd';
 
 // redux在组件里面的用法 
 import { login } from '../../redux/user.redux'
@@ -15,19 +15,23 @@ function hasErrors(fieldsError) {
 class HorizontalLoginForm extends React.Component {
     componentDidMount() {
         this.props.form.validateFields();
-        console.log('state值改变时',this.props)
+        console.log('state值改变时', this.props)
     }
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log(values,this.props)
                 this.props.login(values)
             }
         });
     }
 
     render() {
+        if (this.props.isLogin) {
+            this.props.history.push('/home');
+            sessionStorage.setItem('isLogin', true);
+            localStorage.setItem('token', this.props.token);
+        }
         const FormItem = Form.Item;
         const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
         const userNameError = isFieldTouched('username') && getFieldError('username');

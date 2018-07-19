@@ -17,7 +17,9 @@ import Home from './container/home/home';
 import Login from './container/login/login';
 
 const store = createStore(reducer, compose(applyMiddleware(thunk)));
-
+store.getState((val)=>{
+console.log('newState',val)
+})
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
