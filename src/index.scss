@@ -3,6 +3,7 @@ body {
     padding: 0;
     font-family: sans-serif;
     background: #fff;
+    font-size: 14px;
     .layout{
         position: fixed;
         left:0;
@@ -12,4 +13,19 @@ body {
         background: #666;
     }
   }
-  
+.clearfix:after{
+    content: "." ; 
+    display: block ;
+    height: 0 ;
+    clear: both ;
+    visibility: hidden ;  
+}
+.lf{
+    float: left;
+}
+.rt{
+    float: right;
+}
+.blue{
+    color:#1890ff;
+}

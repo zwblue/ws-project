@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 
 class IsLogin extends React.Component {
     componentWillMount() {
-        const allRouterArray = ['/login', '/home'];
+        const allRouterArray = ['/login', '/home','/home/myPro','/home/applyPro','/home/onlinePro','/home/delayPro','/home/finishedPro','/home/recyclePro','/home/countPro','/home/dayReport'];
         const pathname = this.props.location.pathname;
         if (localStorage.getItem('token')) {
             if (sessionStorage.getItem('isLogin')) {
