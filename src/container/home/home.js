@@ -105,7 +105,7 @@ class SiderDemo extends React.Component {
                 </Sider>
                 <Layout>
                     <div className='header-title blue'>{this.state.menuList[this.state.current].title}</div>
-                    <Content style={{ margin: '0 16px 16px', padding: 15, background: '#fff', minHeight: 280 }}>
+                    <Content style={{ margin: '0 16px 16px', borderRadius: '5px', padding: 15, background: '#fff', minHeight: 280 }}>
                         <Switch>
                             <Route path='/home' exact component={HomeIndex}></Route>
                             <Route exact path='/home/applyPro' component={ApplyPro}></Route>
@@ -123,6 +123,5 @@ class SiderDemo extends React.Component {
         );
     }
 }
-
 export default SiderDemo
 
